@@ -21,20 +21,20 @@ const CreateInvoice = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [itemName, setItemName] = useState("");
-    const [itemCost, setItemCost] = useState(0);
-    const [itemQuantity, setItemQuantity] = useState(1);
+    const [itemCost, setItemCost] = useState("");
+    const [itemQuantity, setItemQuantity] = useState("");
     const [itemList, setItemList] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const addItem = (e: any) => {
         e.preventDefault();
-        if (itemName.trim() && itemCost > 0 && itemQuantity >= 1) {
+        if (itemName.trim() && Number(itemCost) > 0 && Number(itemQuantity) >= 1) {
             setItemList([...itemList, { itemName, itemCost, itemQuantity }]);
         }
 
         setItemName("");
-        setItemCost(0);
-        setItemQuantity(0);
+        setItemCost("");
+        setItemQuantity("");
     };
 
     const {
@@ -102,13 +102,13 @@ const CreateInvoice = () => {
                 navigate("/")
             ) : (
                 <form
-                    className="flex flex-col justify-center items-center w-11/12]"
+                    className="flex flex-col justify-center items-center w-9/12]"
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <h1 className="text-[3rem] font-bold leading-relaxed m-6 flex flex-wrap mt-12 justify-center items-center">
                         CREATE AN INVOICE
                     </h1>
-                    <div className="flex flex-col justify-center items-center mt-6 w-11/12]">
+                    <div className="flex flex-col justify-center items-center mt-6 w-11/12">
                         <Input
                             id="customerName"
                             label="Customer Name"
@@ -157,53 +157,27 @@ const CreateInvoice = () => {
                         <div className="w-11/12 flex justify-between flex-col">
                             <h3 className="my-4 font-bold ">Items List</h3>
 
-                            <div className=" flex flex-wrap space-x-3">
-                                <div className="w-full relative">
+                            <div className="w-full flex flex-col space-y-3">
+                                <div className="w-full flex flex-col">
+                                    <label
+                                        htmlFor="itemName"
+                                        className="text-sm"
+                                    >
+                                        Name
+                                    </label>
                                     <input
                                         type="text"
                                         name="itemName"
-                                        className="peer
-                                        w-full
-                                        p-4
-                                        pt-6 
-                                        font-light 
-                                        bg-white 
-                                        border-2
-                                        rounded-md
-                                        outline-none
-                                        transition
-                                        disabled:opacity-70
-                                        disabled:cursor-not-allowed
-                                        border-neutral-300
-                                        focus:border-black
-                                        pl-4"
+                                        placeholder="Name"
+                                        className="py-2 px-4 mb-6 bg-gray-100"
                                         value={itemName}
                                         onChange={(e) =>
                                             setItemName(e.target.value)
                                         }
                                     />
-                                    <label
-                                        htmlFor="itemName"
-                                        className="absolute 
-                                        text-md
-                                        duration-150 
-                                        transform 
-                                        -translate-y-3 
-                                        top-8
-                                        left-4 
-                                        z-10 
-                                        origin-[0]
-                                        peer-placeholder-shown:scale-100 
-                                        peer-placeholder-shown:translate-y-0 
-                                        peer-focus:scale-75
-                                        peer-focus:-translate-y-4
-                                        text-zinc-400"
-                                    >
-                                        Name
-                                    </label>
                                 </div>
 
-                                <div className="flex flex-col w-1/4">
+                                <div className="w-full flex flex-col">
                                     <label
                                         htmlFor="itemCost"
                                         className="text-sm"
@@ -211,31 +185,18 @@ const CreateInvoice = () => {
                                         Cost
                                     </label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="itemCost"
-                                        className="peer
-                                        w-full
-                                        p-4
-                                        pt-6 
-                                        font-light 
-                                        bg-white 
-                                        border-2
-                                        rounded-md
-                                        outline-none
-                                        transition
-                                        disabled:opacity-70
-                                        disabled:cursor-not-allowed
-                                        border-neutral-300
-                                        focus:border-black
-                                        pl-4"
-                                        // value={itemCost}
+                                        placeholder="Cost"
+                                        className="py-2 px-4 mb-6 bg-gray-100"
+                                        value={itemCost}
                                         onChange={(e) =>
-                                            setItemCost(Number(e.target.value))
+                                            setItemCost(e.target.value)
                                         }
                                     />
                                 </div>
 
-                                <div className="flex flex-col justify-center w-1/4">
+                                <div className="w-full flex flex-col">
                                     <label
                                         htmlFor="itemQuantity"
                                         className="text-sm"
@@ -243,62 +204,47 @@ const CreateInvoice = () => {
                                         Quantity
                                     </label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="itemQuantity"
-                                        className="peer
-                                        w-full
-                                        p-4
-                                        pt-6 
-                                        font-light 
-                                        bg-white 
-                                        border-2
-                                        rounded-md
-                                        outline-none
-                                        transition
-                                        disabled:opacity-70
-                                        disabled:cursor-not-allowed
-                                        border-neutral-300
-                                        focus:border-black
-                                        pl-4"
-                                        // value={itemQuantity}
+                                        placeholder="Quantity"
+                                        className="py-2 px-4 mb-6 bg-gray-100"
+                                        value={itemQuantity}
                                         onChange={(e) =>
                                             setItemQuantity(
-                                                Number(e.target.value)
+                                                e.target.value
                                             )
                                         }
                                     />
                                 </div>
 
-                                <div className="flex flex-col justify-center w-1/4">
-                                    <p className="text-sm">Price</p>
-                                    <p className="peer
-                                        w-full
-                                        p-4
-                                        pt-6 
-                                        font-light 
-                                        bg-white 
-                                        border-2
-                                        rounded-md
-                                        outline-none
-                                        transition
-                                        border-neutral-300
-                                        pl-4">
-                                        {Number(
-                                            itemCost * itemQuantity
-                                        ).toLocaleString("en-US")}
-                                    </p>
+                                <div className="w-full flex flex-col">
+                                    <label
+                                        htmlFor="itemsPrice"
+                                        className="text-sm"
+                                    >
+                                        Price
+                                    </label>
+                                    <input
+                                        className="py-2 px-4 mb-6 bg-gray-100"
+                                        type="number"
+                                        name="Price"
+                                        id="price"
+                                        disabled
+                                        readOnly
+                                        value={Number(itemCost) * Number(itemQuantity)}
+                                    />
+                                </div>
+                                <div>
+                                    <button
+                                        className="h-auto w-48 mt-2 py-2 bg-violet-400 rounded-lg mb-10"
+                                        onClick={addItem}
+                                    >
+                                        Add Item
+                                    </button>
                                 </div>
                             </div>
-                            <button
-                                className="bg-blue-500 text-gray-100 w-[150px] p-3 rounded my-2"
-                                onClick={addItem}
-                            >
-                                Add Item
-                            </button>
                         </div>
-                        {itemList[0] && (
-                            <CreateInvoiceTable itemList={itemList} />
-                        )}
+                        <CreateInvoiceTable itemList={itemList} />
 
                         <div className="my-10">
                             <button

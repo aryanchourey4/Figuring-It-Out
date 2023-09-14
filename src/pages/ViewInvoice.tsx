@@ -9,7 +9,7 @@ import {
 } from "@firebase/firestore";
 import db from "../firebase";
 
-import generatePDF,{Options} from 'react-to-pdf';
+import generatePDF,{Options} from "react-to-pdf";
 
 const ViewInvoice = () => {
   const { id } = useParams();
