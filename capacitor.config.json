@@ -7,12 +7,5 @@
   "cordova": {},
   "server": {
     "androidScheme": "https"
-  },
-  "plugins": {
-    "@capacitor/deeplinks": {
-      "URLSchemes": [
-        "https"
-      ]
-    }
   }
 }
