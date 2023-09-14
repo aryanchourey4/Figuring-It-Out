@@ -8,25 +8,16 @@ import {
   QueryDocumentSnapshot,
 } from "@firebase/firestore";
 import db from "../firebase";
-
-import generatePDF,{Options} from 'react-to-pdf';
+import { CSVLink } from "react-csv";
+import { convertTimestamp } from "../utils/functions";
 
 const ViewInvoice = () => {
   const { id } = useParams();
   const [invoiceDetails, setInvoiceDetails] = useState<any>({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  
-  const options: Options = {
-    filename: "Invoice.pdf",
-    page: {
-      margin: 0
-    }
-  };
-  
-  const getTargetElement = () => document.getElementById("invoice");
-  
-  const downloadPdf = () => generatePDF(getTargetElement, options);
+
+  const [csvData, setCsvData] = useState<any[]>([]);
 
   useEffect(() => {
     try {
@@ -41,6 +32,47 @@ const ViewInvoice = () => {
               firebaseInvoices.push({ data: doc.data() as any, id: doc.id });
             }
           });
+
+          if (firebaseInvoices[0]) {
+            const invoiceData = firebaseInvoices[0].data;
+
+            const newCsvData: any[] = [];
+            newCsvData.push([
+              "User ID",
+              "Cashier Name",
+              "Business Email",
+              "Business Name",
+              "Business Bank Name",
+              "Business Account No",
+              "Business UPI ID",
+              "Customer Name",
+              "Customer Email",
+              "Customer Address",
+              "Customer City",
+              "Currency",
+              "Item List",
+              "Timestamp",
+            ]);
+            newCsvData.push([
+              invoiceData.user_id || "",
+              invoiceData.cashier_name || "",
+              invoiceData.business_email || "",
+              invoiceData.business_name || "",
+              invoiceData.business_bank_name || "",
+              invoiceData.business_account_no || "",
+              invoiceData.business_upi_id || "",
+              invoiceData.customerName || "",
+              invoiceData.customerEmail || "",
+              invoiceData.customerAddress || "",
+              invoiceData.customerCity || "",
+              invoiceData.currency || "",
+              JSON.stringify(invoiceData.itemList) || "", // Convert itemList to JSON string
+              convertTimestamp(invoiceData.timestamp) || "", // Convert timestamp to a formatted date string
+            ]);
+
+            setCsvData(newCsvData);
+          }
+
           console.log(firebaseInvoices);
           setInvoiceDetails(firebaseInvoices[0] || null);
           setLoading(false);
@@ -54,7 +86,11 @@ const ViewInvoice = () => {
   }, [id, navigate]);
 
   const renderInvoiceTable = () => {
-    if (!invoiceDetails || !invoiceDetails.data || !invoiceDetails.data.itemList) {
+    if (
+      !invoiceDetails ||
+      !invoiceDetails.data ||
+      !invoiceDetails.data.itemList
+    ) {
       return null;
     }
 
@@ -95,19 +131,24 @@ const ViewInvoice = () => {
       business_account_no,
       business_bank_name,
       business_upi_id,
+      customerName,
+      customerEmail,
+      customerAddress,
+      customerCity,
+      currency,
+      itemList,
+      timestamp,
     } = invoiceDetails.data;
-
-    const customerName = invoiceDetails.data.customerName || "";
-    const customerEmail = invoiceDetails.data.customerEmail || "";
-    const customerAddress = invoiceDetails.data.customerAddress || "";
-    const customerCity = invoiceDetails.data.customerCity || "";
-    const currency = invoiceDetails.data.currency || "";
 
     return (
       <form>
         <div>
+          <label>Date:</label>
+          <input type="text" value={convertTimestamp(timestamp)} readOnly />
+        </div>
+        <div>
           <label>User ID:</label>
-          <input type="text" value={user_id} readOnly />
+          <input type="text" value={user_id || ""} readOnly />
         </div>
         <div>
           <label>Cashier Name:</label>
@@ -135,23 +176,23 @@ const ViewInvoice = () => {
         </div>
         <div>
           <label>Customer Name:</label>
-          <input type="text" value={customerName} readOnly />
+          <input type="text" value={customerName || ""} readOnly />
         </div>
         <div>
           <label>Customer Email:</label>
-          <input type="text" value={customerEmail} readOnly />
+          <input type="text" value={customerEmail || ""} readOnly />
         </div>
         <div>
           <label>Customer Address:</label>
-          <input type="text" value={customerAddress} readOnly />
+          <input type="text" value={customerAddress || ""} readOnly />
         </div>
         <div>
           <label>Customer City:</label>
-          <input type="text" value={customerCity} readOnly />
+          <input type="text" value={customerCity || ""} readOnly />
         </div>
         <div>
           <label>Currency:</label>
-          <input type="text" value={currency} readOnly />
+          <input type="text" value={currency || ""} readOnly />
         </div>
       </form>
     );
@@ -163,11 +204,17 @@ const ViewInvoice = () => {
         invoiceDetails ? (
           <>
             <h2>View Invoice</h2>
-            <div id="invoice">
             <div>Invoice ID: {id}</div>
             {renderInvoiceForm()}
             {renderInvoiceTable()}
-            </div>
+            <CSVLink
+              data={csvData}
+              filename={"invoice.csv"}
+              className="btn btn-primary"
+              target="_blank"
+            >
+              Export to CSV
+            </CSVLink>
           </>
         ) : (
           <div>Invoice not found</div>
@@ -175,9 +222,6 @@ const ViewInvoice = () => {
       ) : (
         <div>Loading...</div>
       )}
-    <button onClick={downloadPdf}>Download PDF</button>
-      {/* <div id="container">
-      </div> */}
     </div>
   );
 };
