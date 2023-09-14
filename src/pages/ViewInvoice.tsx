@@ -8,16 +8,11 @@ import {
   QueryDocumentSnapshot,
 } from "@firebase/firestore";
 import db from "../firebase";
-<<<<<<< HEAD
-
-import generatePDF,{Options} from "react-to-pdf";
-=======
 import { showToast } from "../utils/functions";
 import generatePDF,{Options} from 'react-to-pdf';
 import { CSVLink } from "react-csv";
 import { convertTimestamp } from "../utils/functions";
 
->>>>>>> f1b8b2b30bed840a9b8c8221c7535cf6bf5b35fd
 
 const ViewInvoice = () => {
   const { id } = useParams();
