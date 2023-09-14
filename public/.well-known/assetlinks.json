@@ -1,5 +1,5 @@
 [{
     "relation": ["delegate_permission/common.handle_all_urls"],
-    "target" : { "namespace": "android_app", "package_name": "com.getcapacitor.app",
+    "target" : { "namespace": "android_app", "package_name": "io.ionic.invoice",
                  "sha256_cert_fingerprints": ["02:F8:B5:1C:6F:D3:DD:03:50:7A:78:1D:00:EB:37:5A:2D:F4:64:CD:F7:B1:25:68:CE:FC:D2:27:2A:83:AD:C2"] }
   }]
