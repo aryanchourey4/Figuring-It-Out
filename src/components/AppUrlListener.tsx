@@ -9,14 +9,14 @@ const AppUrlListener: React.FC<any> = () => {
       App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
         // Example url: https://beerswift.app/tabs/tab2
         // slug = /tabs/tab2
-        const slug = event.url.split('.app').pop();
+        const slug = event.url.split('sih-invoice.vercel.app').pop();
         if (slug) {
           navigate(slug);
         }
         // If no match, do nothing - let regular routing
         // logic take over
       });
-    }, []);
+    }, [navigate]);
   
     return null;
   };
