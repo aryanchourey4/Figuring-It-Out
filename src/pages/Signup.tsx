@@ -32,7 +32,6 @@ const SignUp = ({ history }: any) => {
 
     const onSubmit: SubmitHandler<FieldValues> = async (data: any) => {
         setIsLoading(true);
-        console.log(data);
         await createUserWithEmailAndPassword(auth, data.email, data.password)
             .then(async (userCredential) => {
                 const user = userCredential.user;
@@ -63,7 +62,6 @@ const SignUp = ({ history }: any) => {
             .catch((error) => {
                 showToast("error", "Authentication Failed!😭");
                 showToast("error", error.message);
-                console.log(error);
             });
     };
 

@@ -40,8 +40,8 @@ const Invoices = () => {
                 navigate("/login")
             ) : (
                 <>
-                    <h1>All Invoices</h1>
-                    <div>
+                    <h1 className="text-[3rem] font-bold mb-6 leading-relaxed flex flex-wrap mt-12 justify-center items-center">ALL INVOICES</h1>
+                    <div className="flex flex-col justify-center items-center">
                         {invoices.length !== 0 ? <Table invoices={invoices} /> : <span>No Invoices</span>}
                     </div>
                 </>

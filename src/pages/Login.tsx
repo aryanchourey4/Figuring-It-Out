@@ -61,7 +61,6 @@ const Login = ({ history }: any) => {
 
                         return () => unsubscribe();
                     });
-                    console.log(q);
                 } catch (error) {
                     console.log(error);
                 }
@@ -74,7 +73,6 @@ const Login = ({ history }: any) => {
             .catch((error) => {
                 showToast("error", "Authentication Failed!😭");
                 showToast("error", error.message);
-                console.log(error);
                 setIsLoading(false);
             });
     };
