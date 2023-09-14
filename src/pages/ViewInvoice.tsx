@@ -8,14 +8,44 @@ import {
   QueryDocumentSnapshot,
 } from "@firebase/firestore";
 import db from "../firebase";
+import { showToast } from "../utils/functions";
+import generatePDF,{Options} from 'react-to-pdf';
 import { CSVLink } from "react-csv";
 import { convertTimestamp } from "../utils/functions";
+
 
 const ViewInvoice = () => {
   const { id } = useParams();
   const [invoiceDetails, setInvoiceDetails] = useState<any>({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false); 
+
+  const options: Options = {
+    filename: "Invoice.pdf",
+    page: {
+      margin: 0
+    }
+  };
+  
+  const getTargetElement = () => document.getElementById("invoice");
+  
+  const downloadPdf = () => {
+    generatePDF(getTargetElement, options);
+    showToast("success", "Download Started! 😃");
+
+  };
+  const Copy = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        setCopied(true);
+        showToast("success", "Link Copied! 😃");
+      })
+      .catch((error) => {
+        showToast("error", "Error in Copying Link 😔");
+      });
+  };
 
   const [csvData, setCsvData] = useState<any[]>([]);
 
@@ -222,6 +252,9 @@ const ViewInvoice = () => {
       ) : (
         <div>Loading...</div>
       )}
+    <button id="downloadPDF" onClick={downloadPdf}>Download PDF</button>
+    <button id="Copy" onClick={Copy}>Copy URL</button>
+
     </div>
   );
 };
