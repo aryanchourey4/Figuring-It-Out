@@ -1,0 +1,11 @@
+{
+  "appId": "io.ionic.invoice",
+  "appName": "Invoice",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {},
+  "server": {
+    "androidScheme": "https"
+  }
+}
