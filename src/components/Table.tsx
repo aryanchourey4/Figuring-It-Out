@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardActionsSvg from './DashboardActionsSvg';
+import TableActions from './TableActions';
 import { convertTimestamp } from '../utils/functions';
 
 const Table = ({ invoices }:any) => {
@@ -20,7 +20,7 @@ const Table = ({ invoices }:any) => {
               <td className='text-sm text-gray-400'>{convertTimestamp(invoice.data.timestamp)}</td>
               <td  className='text-sm'>{invoice.data.customerName}</td>
               <td>
-                <DashboardActionsSvg invoiceId={invoice.id} />
+                <TableActions invoiceId={invoice.id} />
               </td>
             </tr>
           ))}

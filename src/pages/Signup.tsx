@@ -69,9 +69,14 @@ const SignUp = ({ history }: any) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <h5>Create an account</h5>
-                <div>
+            <form
+                className="flex flex-col justify-center items-center w-11/12]"
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <h1 className="text-[3rem] font-bold leading-relaxed flex flex-wrap mt-12 justify-center items-center">
+                    SIGN UP
+                </h1>
+                <div className="flex flex-col justify-center items-center mt-6 w-11/12]">
                     <Input
                         id="name"
                         label="Name"
@@ -80,6 +85,7 @@ const SignUp = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
                     <Input
                         id="email"
                         label="Email"
@@ -88,6 +94,7 @@ const SignUp = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
                     <Input
                         id="password"
                         label="Password"
@@ -97,6 +104,7 @@ const SignUp = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
                     <Input
                         id="business_name"
                         label="Business Name"
@@ -105,6 +113,7 @@ const SignUp = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
                     <Input
                         id="account_no"
                         label="Bank Account Number"
@@ -113,6 +122,7 @@ const SignUp = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
                     <Input
                         id="bank_name"
                         label="Bank Name"
@@ -121,6 +131,7 @@ const SignUp = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
                     <Input
                         id="upi_id"
                         label="UPI ID"
@@ -129,15 +140,23 @@ const SignUp = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
 
                     <div>
-                        <button type={"submit"}>Create an account</button>
+                        <button
+                            className="h-auto w-48 mt-2 py-2 bg-violet-400 rounded-lg"
+                            type={"submit"}
+                        >
+                            Create an account
+                        </button>
                     </div>
                 </div>
+                <Link className="text-violet-900" to="/login">
+                    <div className="mt-6 mb-12">
+                        Already have an account? Log In.
+                    </div>
+                </Link>
             </form>
-            <Link className="red-100" to="/login">
-                Already have an account? Login.
-            </Link>
         </>
     );
 };

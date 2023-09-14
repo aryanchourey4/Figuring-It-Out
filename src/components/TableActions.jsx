@@ -4,7 +4,7 @@ import { doc, deleteDoc } from 'firebase/firestore';
 import db from '../firebase';
 import { showToast } from '../utils/functions';
 
-const DashboardActionsSvg = ({ invoiceId }) => {
+const TableActions = ({ invoiceId }) => {
   const navigate = useNavigate();
 
   async function deleteInvoice(id) {
@@ -55,4 +55,4 @@ const DashboardActionsSvg = ({ invoiceId }) => {
   );
 };
 
-export default DashboardActionsSvg;
+export default TableActions;

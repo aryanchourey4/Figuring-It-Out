@@ -81,8 +81,13 @@ const Login = ({ history }: any) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <h5>Login</h5>
+            <form
+                className="flex flex-col justify-center items-center w-11/12]"
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <h1 className="text-[3rem] font-bold mb-6 leading-relaxed flex flex-wrap mt-12 justify-center items-center">
+                    LOG IN
+                </h1>
                 <div>
                     <Input
                         id="email"
@@ -92,6 +97,7 @@ const Login = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
                     <Input
                         id="password"
                         label="Password"
@@ -101,15 +107,23 @@ const Login = ({ history }: any) => {
                         errors={errors}
                         required
                     />
+                    <br />
 
                     <div>
-                        <button type={"submit"}>Login</button>
+                        <button
+                            className="h-auto w-48 mt-2 py-2 bg-violet-400 rounded-lg"
+                            type={"submit"}
+                        >
+                            Login
+                        </button>
                     </div>
                 </div>
+                <Link className="text-violet-900" to="/signup">
+                    <div className="mt-6 mb-12">
+                        Don't have an account? Create an account.
+                    </div>
+                </Link>
             </form>
-            <Link className="red-100" to="/signup">
-                Don't have an account? Create an account.
-            </Link>
         </>
     );
 };

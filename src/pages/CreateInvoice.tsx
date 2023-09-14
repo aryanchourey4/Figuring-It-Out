@@ -102,8 +102,11 @@ const CreateInvoice = () => {
             {!user.id ? (
                 navigate("/")
             ) : (
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <h5>Create an Invoice</h5>
+                <form className="flex flex-col justify-center items-center w-11/12]"
+                onSubmit={handleSubmit(onSubmit)}>
+                    <h1 className="text-[3rem] font-bold leading-relaxed m-6 flex flex-wrap mt-12 justify-center items-center">
+                    CREATE AN INVOICE
+                </h1>
                     <div>
                         <Input
                             id="customerName"
@@ -113,6 +116,7 @@ const CreateInvoice = () => {
                             errors={errors}
                             required
                         />
+                        <br />
                         <Input
                             id="customerEmail"
                             label="Customer Email"
@@ -121,6 +125,7 @@ const CreateInvoice = () => {
                             errors={errors}
                             required
                         />
+                        <br />
                         <Input
                             id="customerAddress"
                             label="Customer Address"
@@ -129,6 +134,7 @@ const CreateInvoice = () => {
                             errors={errors}
                             required
                         />
+                        <br />
                         <Input
                             id="customerCity"
                             label="Customer City"
@@ -137,6 +143,7 @@ const CreateInvoice = () => {
                             errors={errors}
                             required
                         />
+                        <br />
                         <Input
                             id="currency"
                             label="Currency"
@@ -145,6 +152,7 @@ const CreateInvoice = () => {
                             errors={errors}
                             required
                         />
+                        <br />
                         <div className="w-full flex justify-between flex-col">
                             <h3 className="my-4 font-bold ">Items List</h3>
 
@@ -226,8 +234,8 @@ const CreateInvoice = () => {
                             <CreateInvoiceTable itemList={itemList} />
                         )}
 
-                        <div>
-                            <button type={"submit"}>Create Invoice</button>
+                        <div className="my-10">
+                            <button className="h-auto w-48 mt-2 py-2 bg-violet-400 rounded-lg" type={"submit"}>Create Invoice</button>
                         </div>
                     </div>
                 </form>
