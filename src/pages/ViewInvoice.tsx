@@ -96,8 +96,8 @@ const ViewInvoice = () => {
               invoiceData.customerAddress || "",
               invoiceData.customerCity || "",
               invoiceData.currency || "",
-              JSON.stringify(invoiceData.itemList) || "", // Convert itemList to JSON string
-              convertTimestamp(invoiceData.timestamp) || "", // Convert timestamp to a formatted date string
+              JSON.stringify(invoiceData.itemList) || "", 
+              convertTimestamp(invoiceData.timestamp) || "", 
             ]);
 
             setCsvData(newCsvData);
