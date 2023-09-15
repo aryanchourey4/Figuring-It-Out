@@ -12,6 +12,9 @@ import { showToast } from "../utils/functions";
 import generatePDF,{Options} from 'react-to-pdf';
 import { CSVLink } from "react-csv";
 import { convertTimestamp } from "../utils/functions";
+import { EmailComposer } from "capacitor-email-composer";
+import { isPlatform } from "@ionic/react";
+
 
 
 const ViewInvoice = () => {
@@ -27,6 +30,23 @@ const ViewInvoice = () => {
       margin: 0
     }
   };
+
+
+  const sendEmail = () => {
+    const content = `Business Name:${invoiceDetails.business_name}, Customer Name:${invoiceDetails.customerName}, Customer Address:${invoiceDetails.customerAddress} Customer City:${invoiceDetails.customerCity} Currency:${invoiceDetails.currency} Item List:${invoiceDetails.itemList}`;
+    const emailComposer=EmailComposer;
+    emailComposer.open({
+      to: [`${invoiceDetails.customerEmail}`],
+      cc: [`${invoiceDetails.customerEmail}`],
+      bcc: [`${invoiceDetails.customerEmail}`, `${invoiceDetails.customerEmail}`],
+      attachments: [],
+      subject: "Invoice",
+      body: content,
+      isHtml: true,
+
+    })
+  };
+
   
   const getTargetElement = () => document.getElementById("invoice");
   
@@ -103,7 +123,6 @@ const ViewInvoice = () => {
             setCsvData(newCsvData);
           }
 
-          console.log(firebaseInvoices);
           setInvoiceDetails(firebaseInvoices[0] || null);
           setLoading(false);
         });
@@ -125,26 +144,33 @@ const ViewInvoice = () => {
     }
 
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Item Description</th>
-            <th>Item Cost</th>
-            <th>Item Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          {invoiceDetails.data.itemList.map((item: any, index: number) => (
-            <tr key={index}>
-              <td>{item.itemName}</td>
-              <td>{item.itemDescription}</td>
-              <td>{item.itemCost}</td>
-              <td>{item.itemQuantity}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="w-full p-6 flex flex-col justify-center items-center">
+            <table className="table-fixed border-fixed  border-white w-[98%] border-2 rounded-lg">
+                <thead>
+                    <tr>
+                        <th className="text-violet-800 border-white border-2 bg-violet-300 px-2 py-6">Name</th>
+                        <th className="text-violet-800 border-white border-2 bg-violet-300 px-2 py-6">Cost</th>
+                        <th className="text-violet-800 border-white border-2 bg-violet-300 px-2 py-6">Quantity</th>
+                        <th className="text-violet-800 border-white border-2 bg-violet-300 px-2 py-6">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {invoiceDetails.data.itemList.reverse().map((item: any) => (
+                        <tr key={item.itemName}>
+                            <td className="text-sm border-white border-2 bg-violet-100 p-2 overflow-x-scroll">{item.itemName}</td>
+                            <td className="text-sm border-white border-2 bg-violet-100 p-2 overflow-x-scroll">{item.itemCost}</td>
+                            <td className="text-sm border-white border-2 bg-violet-100 p-2 overflow-x-scroll">{item.itemQuantity}</td>
+                            <td className="text-sm border-white border-2 bg-violet-100 p-2 overflow-x-scroll">
+                                {Number(
+                                    item.itemCost * item.itemQuantity
+                                ).toLocaleString("en-US")}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
   };
 
@@ -171,7 +197,7 @@ const ViewInvoice = () => {
     } = invoiceDetails.data;
 
     return (
-      <form>
+      <div className="flex flex-col justify-center items-center">
         <div>
           <label>Date:</label>
           <input type="text" value={convertTimestamp(timestamp)} readOnly />
@@ -224,7 +250,7 @@ const ViewInvoice = () => {
           <label>Currency:</label>
           <input type="text" value={currency || ""} readOnly />
         </div>
-      </form>
+      </div>
     );
   };
 
@@ -233,14 +259,16 @@ const ViewInvoice = () => {
       {!loading ? (
         invoiceDetails ? (
           <>
-            <h2>View Invoice</h2>
-            <div>Invoice ID: {id}</div>
+            <h1 className="text-[3rem] font-bold leading-relaxed flex flex-wrap mt-12 justify-center items-center">
+                    VIEW INVOICE
+                </h1>
+            <div className="mb-6">Invoice ID: {id}</div>
             {renderInvoiceForm()}
             {renderInvoiceTable()}
             <CSVLink
               data={csvData}
               filename={"invoice.csv"}
-              className="btn btn-primary"
+              className="h-auto w-full mt-2 py-2 px-12 mb-2 bg-violet-400 rounded-lg"
               target="_blank"
             >
               Export to CSV
@@ -252,9 +280,11 @@ const ViewInvoice = () => {
       ) : (
         <div>Loading...</div>
       )}
-    <button id="downloadPDF" onClick={downloadPdf}>Download PDF</button>
-    <button id="Copy" onClick={Copy}>Copy URL</button>
-
+      <div className="flex flex-col justify-center items-center">
+    <button className="h-auto w-48 mt-2 py-2 bg-violet-400 rounded-lg" id="downloadPDF" onClick={downloadPdf}>Download PDF</button>
+    <button className="h-auto w-48 mt-2 py-2 bg-violet-400 rounded-lg" id="Copy" onClick={Copy}>Copy URL</button>
+    <button className="h-auto w-48 mt-2 py-2 bg-violet-400 rounded-lg" id="Email" onClick={sendEmail}>Email</button>
+</div>
     </div>
   );
 };

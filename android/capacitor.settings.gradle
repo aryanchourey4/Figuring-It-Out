@@ -4,3 +4,6 @@ project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/
 
 include ':capacitor-app'
 project(':capacitor-app').projectDir = new File('../node_modules/@capacitor/app/android')
+
+include ':capacitor-email-composer'
+project(':capacitor-email-composer').projectDir = new File('../node_modules/capacitor-email-composer/android')
