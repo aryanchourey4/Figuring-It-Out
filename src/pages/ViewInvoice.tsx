@@ -262,9 +262,11 @@ const ViewInvoice = () => {
             <h1 className="text-[3rem] font-bold leading-relaxed flex flex-wrap mt-12 justify-center items-center">
                     VIEW INVOICE
                 </h1>
+            <div id="invoice">
             <div className="mb-6">Invoice ID: {id}</div>
             {renderInvoiceForm()}
             {renderInvoiceTable()}
+            </div>
             <CSVLink
               data={csvData}
               filename={"invoice.csv"}
